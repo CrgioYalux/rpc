@@ -10,7 +10,6 @@ Is entered like:
 ```
 
 ### Expected behavior for this tool
-
 - Base use:
 ```bash
 $ rpc 5 5 + 10 2 - *
@@ -24,25 +23,4 @@ $ rpc -s 5 5 + 10 2 - *
 $ rpc: 5 5 + 10 2 - *
 $ rpc: 10 8 *
 $ rpc: 80
-```
-
-### Functions as parameters
-```c
-// Function declaration
-void func(void (*cb)(int));
-
-// Function definition
-void func(void (*cb)(int)) {
-    int b = 0;
-    (*cb)(b);
-}
-
-// Function to pass as argument
-void callback(int a) {
-    /* do something */
-    return;
-}
-
-// Function call
-func(callback);
 ```
