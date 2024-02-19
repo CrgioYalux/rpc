@@ -71,5 +71,6 @@ void walk_stack(Node *head, void (*callback)(Node*)) {
 }
 
 void print_int_node_stack(Stack *stack) {
+	printf("Stack length: %lu\n", stack->length);
 	walk_stack(stack->head, print_int_node);
 }

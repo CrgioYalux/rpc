@@ -34,6 +34,8 @@ int main(void) {
 		return 1;
 	}
 
+	print_int_node_stack(s);
+
 	push_node(s, n1); 
 	push_node(s, n2); 
 	push_node(s, n3); 
