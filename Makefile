@@ -15,4 +15,4 @@ init:
 
 .PHONY: clean
 clean:
-	rm -r rpc build/
+	rm -r build/
