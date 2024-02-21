@@ -10,8 +10,6 @@ Stack *new_stack(size_t data_size) {
 	head->data_size = data_size;
 	head->head = NULL;
 
-	// printf("Stack: in %p, size: %lu\n", head, sizeof(*head));
-
 	return head;
 }
 

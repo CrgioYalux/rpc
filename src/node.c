@@ -10,7 +10,5 @@ Node *new_node(void *value) {
 	node->next = NULL;
 	node->prev = NULL;
 
-	// printf("Node: in %p, size: %lu\n", node, sizeof(*node));
-
 	return node;
 }
