@@ -17,7 +17,12 @@ signed strtoi(char *s) {
 
 		char ch = *(s + i);
 
-		if (i == 0 && ch == '-') sign = -1;
+		if (i == 0 && ch == '-') {
+			sign = -1;
+			i = 1;
+			continue;
+		}
+
 		if (ch < '0' || ch > '9') return 0;
 
 		result = result + pow(10, length) * (ch - '0');
