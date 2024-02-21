@@ -1,4 +1,5 @@
 ### Functions as parameters  
+
 ```c
 // Function declaration
 void func(void (*cb)(int));
