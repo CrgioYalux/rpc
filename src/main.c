@@ -1,54 +1,56 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <math.h>
 #include "stack.h"
 
-int main(void) {
+signed strtoi(char *s) {
+	signed result = 0;
+	unsigned i = 0;
+	unsigned length = 0;
+	signed sign = 1;
+
+	while (*(s + length) != '\0') length++;
+
+	while (*(s + i) != '\0') {
+		length--;
+
+		char ch = *(s + i);
+
+		if (i == 0 && ch == '-') sign = -1;
+		if (ch < '0' || ch > '9') return 0;
+
+		result = result + pow(10, length) * (ch - '0');
+
+		i++;
+	}
+
+	return result * sign;
+}
+
+int main(int argc, char **argv) {
+	if (argc == 1) return 0;
+
+	int result = 0;
+
 	Stack *s = new_stack(sizeof(int));
 
-	if (s == NULL) { 
-		free(s);
-		return 1;
-	}
+	if (s == NULL) return 1;
 
-	int i = 5;
-	Node *n1 = new_node(&i);
+	for (int i = 1; i < argc; i++) {
+		int *v = malloc(sizeof(int));
 
-	if (n1 == NULL) {
-		free(n1);
-		return 1;
-	}
+		if (v == NULL) return 1;
 
-	int j = 10;
-	Node *n2 = new_node(&j);
+		*v = strtoi(argv[i]);
+		Node *n = new_node(v);
 
-	if (n2 == NULL) {
-		free(n2);
-		return 1;
-	}
+		if (n == NULL) return 1;
 
-	int k = 15;
-	Node *n3 = new_node(&k);
-
-	if (n3 == NULL) {
-		free(n3);
-		return 1;
+		push_node(s, n);
 	}
 
 	print_int_node_stack(s);
-
-	push_node(s, n1); 
-	push_node(s, n2); 
-	push_node(s, n3); 
-
-	print_int_node_stack(s);
-
-	pop_node(s);
-
-	print_int_node_stack(s);
-
-	free(n1);
-	free(n2);
-	free(s);
 
 	return 0;
 }
