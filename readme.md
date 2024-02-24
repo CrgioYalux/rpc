@@ -32,3 +32,4 @@ $ rpc: 80
 ### Stuff learned
 - [Functions as Parameteres](/docs/function-as-parameters.md)
 - [Malloc-Assigned Addresses Persistance](/docs/malloc-assigned-addresses-persistance.md)
+- [About `const type *`](/docs/const_type_*.md)
