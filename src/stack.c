@@ -43,6 +43,12 @@ Node *pop_node(Stack *stack) {
 	return node;
 }
 
+void pop_all(Stack *stack) {
+	while (stack->length != 0) {
+		pop_node(stack);
+	}
+}
+
 /* Display stack */
 
 void print_node(void (*print)(void*), Node *node) {

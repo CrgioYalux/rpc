@@ -15,6 +15,8 @@ void push_node(Stack *stack, Node *node);
 
 Node *pop_node(Stack *stack);
 
+void pop_all(Stack *stack);
+
 void print_node(void (*print)(void*), Node *node);
 
 void print_int_node_value(void *value);
