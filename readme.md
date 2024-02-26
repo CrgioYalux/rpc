@@ -25,7 +25,7 @@ $ rpc: 80
 ```
 
 ### TODO
-- [ ] Literally do the minimum.
+- [x] Literally do the minimum.
 - [ ] Add optional flags.
     - [ ] Show steps flag.
 
