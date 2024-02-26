@@ -88,12 +88,14 @@ int main(int argc, char **argv) {
 					*result_value = *curr_value - *result_value;
 				else if (op == 'x')
 					*result_value = *curr_value * *result_value;
-				else if (op == '/')
+				else if (op == '/') {
 					if (*result_value == 0) {
 						printf("Error: attempt to divide by 0.\n");
 						return 1;
 					}
 					*result_value = *curr_value / *result_value;
+				}
+
 			}
 
 			push_node(s, new_node(result_value));
