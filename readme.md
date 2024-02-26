@@ -1,5 +1,5 @@
 ### How it works
-In Reverse Polish Notation, each operator follows its operands.  
+In [Reverse Polish Notation](https://en.wikipedia.org/wiki/Reverse_Polish_notation), each operator follows its operands.  
 An infix expression like:  
 ```
 (1 + 2) * (4 - 5)
@@ -13,7 +13,9 @@ Is entered like:
 - Base use:
 ```bash
 $ rpc 5 5 + 10 2 - *
-$ rpc: 80
+$ Result: 80
+$ rpc 5 5 + 0 /
+$ Error: attempt to divide by 0.
 ```
 
 - Using the show steps flag (-s):
@@ -28,6 +30,7 @@ $ rpc: 80
 - [x] Literally do the minimum.
 - [ ] Add optional flags.
     - [ ] Show steps flag.
+- [ ] Support floating-point numbers
 
 ### Stuff learned
 - [Functions as Parameteres](/docs/function-as-parameters.md)
