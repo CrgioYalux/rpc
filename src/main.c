@@ -3,15 +3,36 @@
 #include <math.h>
 #include "stack.h"
 
+/* is_operator: checks if s is an operator; returns its ascii code, else 0 */
+int is_operator(const char *s) {
+	unsigned length = 0;
+
+	while (*(s + length) != '\0') length++;
+	if (length > 1) return 0;
+	if (*s != '+' && *s != '-' && *s != 'x' && *s != '/') return 0;
+	return (int)*s;
+}
+
 /* canstrtoi: checks if s can be converted to int; returns the length if so, else 0 */
 unsigned canstrtoi(const char *s) {
 	unsigned length = 0;
 
 	while (*(s + length) != '\0') {
 		char ch = *(s + length);
-		if (ch < '0' || ch > '9') return 0;
-		length++;
+
+		if (ch == '-') {
+			if (length == 0) {
+				length++;
+			} 
+			else return 0;
+		}
+		else if (ch >= '0' && ch <= '9') {
+			length++;
+		}
+		else return 0;
 	}
+
+	if ((char)*s == '-' && length == 1) return 0;
 
 	return length;
 }
@@ -49,36 +70,49 @@ signed strtoi(const char *s) {
 int main(int argc, char **argv) {
 	if (argc == 1) return 0;
 
-	int result = 0;
-
 	Stack *s = new_stack(sizeof(int));
 
 	if (s == NULL) return 1;
 
 	for (int i = 1; i < argc; i++) {
-		int *v = malloc(sizeof(int));
-
-		if (v == NULL) return 1;
 		if (canstrtoi(argv[i]) == 0) {
-			printf("may entered an operand\n");
-			// 1. check if operator
-			// 2. if so, do the operation the operaton says with the nodes til then
-			// 3. pop_all
-			// 4. push the result from the operation as node
+			int op = is_operator(argv[i]);
+			if (op == 0) return 1;
+
+			int *result_value = pop_node(s)->value;
+			while (s->length != 0) {
+				int *curr_value = pop_node(s)->value;
+				if (op == '+')
+					*result_value = *curr_value + *result_value;
+				else if (op == '-')
+					*result_value = *curr_value - *result_value;
+				else if (op == 'x')
+					*result_value = *curr_value * *result_value;
+				else if (op == '/')
+					if (*result_value == 0) {
+						printf("Error: attempt to divide by 0.\n");
+						return 1;
+					}
+					*result_value = *curr_value / *result_value;
+			}
+
+			push_node(s, new_node(result_value));
 		} else {
-			// it's an operand
+			int *v = malloc(sizeof(int));
+			if (v == NULL) return 1;
+
 			*v = strtoi(argv[i]);
+
 			Node *n = new_node(v);
 			if (n == NULL) return 1;
+
 			push_node(s, n);
+
 		}
 	}
 
-	print_int_node_stack(s);
-
-	pop_all(s);
-
-	print_int_node_stack(s);
+	int *result = pop_node(s)->value;
+	printf("Result: %d\n", *result);
 
 	return 0;
 }
