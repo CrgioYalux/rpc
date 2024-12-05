@@ -16,6 +16,8 @@ $ rpc 5 5 + 10 2 - *
 $ Result: 80
 $ rpc 5 5 + 0 /
 $ Error: attempt to divide by 0.
+$ rcp 123 123 \* 123 - 444 / # need to use \* to escape character
+$ Result: 33
 ```
 
 - Using the show steps flag (-s):

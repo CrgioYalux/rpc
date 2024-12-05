@@ -9,7 +9,7 @@ int is_operator(const char *s) {
 
 	while (*(s + length) != '\0') length++;
 	if (length > 1) return 0;
-	if (*s != '+' && *s != '-' && *s != 'x' && *s != '/') return 0;
+	if (*s != '+' && *s != '-' && *s != 'x' && *s != '*' && *s != '/') return 0;
 	return (int)*s;
 }
 
@@ -86,7 +86,7 @@ int main(int argc, char **argv) {
 					*result_value = *curr_value + *result_value;
 				else if (op == '-')
 					*result_value = *curr_value - *result_value;
-				else if (op == 'x')
+				else if (op == 'x' || op == '*')
 					*result_value = *curr_value * *result_value;
 				else if (op == '/') {
 					if (*result_value == 0) {
