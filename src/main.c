@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include "stack.h"
+#include "die.h"
 
 /* is_operator: checks if s is an operator; returns its ascii code, else 0 */
 int is_operator(const char *s) {
@@ -70,18 +71,17 @@ signed strtoi(const char *s) {
 int main(int argc, char **argv) {
 	if (argc == 1) return 0;
 
-	Stack *s = new_stack(sizeof(int));
-
-	if (s == NULL) return 1;
+	Stack *stack = new_stack(sizeof(int));
 
 	for (int i = 1; i < argc; i++) {
 		if (canstrtoi(argv[i]) == 0) {
 			int op = is_operator(argv[i]);
 			if (op == 0) return 1;
 
-			int *result_value = pop_node(s)->value;
-			while (s->length != 0) {
-				int *curr_value = pop_node(s)->value;
+			int *result_value = pop_node(stack)->value;
+
+			while (stack->length != 0) {
+				int *curr_value = pop_node(stack)->value;
 				if (op == '+')
 					*result_value = *curr_value + *result_value;
 				else if (op == '-')
@@ -95,26 +95,20 @@ int main(int argc, char **argv) {
 					}
 					*result_value = *curr_value / *result_value;
 				}
-
 			}
 
-			push_node(s, new_node(result_value));
+			push_node(stack, new_node(result_value));
 		} else {
-			int *v = malloc(sizeof(int));
-			if (v == NULL) return 1;
-
-			*v = strtoi(argv[i]);
-
-			Node *n = new_node(v);
-			if (n == NULL) return 1;
-
-			push_node(s, n);
-
+            int value = strtoi(argv[i]);
+            Node *valueNode = new_node(&value);
+			push_node(stack, valueNode);
 		}
 	}
 
-	int *result = pop_node(s)->value;
+	int *result = pop_node(stack)->value;
 	printf("Result: %d\n", *result);
+
+    free(stack);
 
 	return 0;
 }

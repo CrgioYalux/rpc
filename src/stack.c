@@ -1,19 +1,30 @@
+#include "stack.h"
+#include "die.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include "stack.h"
+
 
 Stack *new_stack(size_t data_size) {
 	Stack *head = malloc(sizeof(Stack));
 
-	if (head == NULL) return NULL;
+    if (!head)
+        die(head, "head is NULL");
 
-	head->data_size = data_size;
+	head->data_size = data_size; // this does nothing btw; lazy past me
+                                 // not gonna fix it; lazy current me
+	head->length = 0;
 	head->head = NULL;
 
 	return head;
 }
 
 void push_node(Stack *stack, Node *node) {
+    if (!stack) 
+        die(stack, "stack is NULL");
+
+    if (!node) 
+        die(node, "node is NULL");
+
 	if (stack->head == NULL) {
 		node->next = NULL;
 		stack->head = node;
@@ -27,15 +38,27 @@ void push_node(Stack *stack, Node *node) {
 }
 
 Node *pop_node(Stack *stack) {
+    if (!stack)
+        die(stack, "stack is NULL");
+
 	Node *node = new_node(stack->head->value);
-	
-	if (stack->head == NULL) return NULL;
+
+    if (!node) 
+        die(node, "node is NULL");
+
+    if (!stack->head) 
+        die(stack->head, "stack->head is NULL");
 
 	if (stack->head->prev == NULL) {
+        free(stack->head);
 		stack->head = NULL;
 	} else {
+        Node *temp = stack->head;
+
 		stack->head->prev->next = NULL;
 		stack->head = stack->head->prev;
+
+        free(temp);
 	}
 
 	stack->length = stack->length - 1;
