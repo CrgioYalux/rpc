@@ -3,7 +3,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
 Stack *new_stack(size_t data_size) {
 	Stack *head = malloc(sizeof(Stack));
 
@@ -37,33 +36,27 @@ void push_node(Stack *stack, Node *node) {
 	stack->length = stack->length + 1;
 }
 
+int maxi(int x, int y) {
+    return x > y ? x : y;
+}
+
 Node *pop_node(Stack *stack) {
     if (!stack)
-        die(stack, "stack is NULL");
+        die(stack, "Stash is NULL");
 
-	Node *node = new_node(stack->head->value);
+    stack->length = maxi(0, stack->length - 1);
 
-    if (!node) 
-        die(node, "node is NULL");
+    Node *popped = stack->head;
 
-    if (!stack->head) 
-        die(stack->head, "stack->head is NULL");
+    if (stack->length == 0) {
+        stack->head = NULL;
+        return popped;
+    }
 
-	if (stack->head->prev == NULL) {
-        free(stack->head);
-		stack->head = NULL;
-	} else {
-        Node *temp = stack->head;
+    stack->head = stack->head->prev;
+    stack->head->next = NULL;
 
-		stack->head->prev->next = NULL;
-		stack->head = stack->head->prev;
-
-        free(temp);
-	}
-
-	stack->length = stack->length - 1;
-
-	return node;
+    return popped;
 }
 
 void pop_all(Stack *stack) {

@@ -133,3 +133,40 @@ ning/rpc/build/rpc)
 ==61643== ERROR SUMMARY: 3 errors from 3 contexts (suppressed: 0 from 0)
 azul@azul-mint:~/learning/learn_c_the_hard_way/revisits_after_learning/rpc$ 
 ```
+
+### Finally!
+
+```bash
+azul@azul-mint:~/learning/learn_c_the_hard_way/revisits_after_learning/rpc$ make r
+ebuild
+rm -r build/
+make
+make[1]: Entering directory '/home/azul/learning/learn_c_the_hard_way/revisits_aft
+er_learning/rpc'
+mkdir build/
+gcc -o main.o -c src/main.c
+gcc -o stack.o -c src/stack.c
+gcc -o node.o -c src/node.c
+gcc -o die.o -c src/die.c
+gcc -o build/rpc main.o stack.o node.o die.o -Wall -Wextra -pedantic -std=c99 -lm
+mv *.o build/
+make[1]: Leaving directory '/home/azul/learning/learn_c_the_hard_way/revisits_afte
+r_learning/rpc'
+azul@azul-mint:~/learning/learn_c_the_hard_way/revisits_after_learning/rpc$ valgri
+nd --leak-check=full --track-origins=yes -s ./build/rpc 123 123 + 444 / 5 + 10 \*
+==24845== Memcheck, a memory error detector
+==24845== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==24845== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==24845== Command: ./build/rpc 123 123 + 444 / 5 + 10 *
+==24845== 
+Result: 50
+==24845== 
+==24845== HEAP SUMMARY:
+==24845==     in use at exit: 0 bytes in 0 blocks
+==24845==   total heap usage: 12 allocs, 12 frees, 1,188 bytes allocated
+==24845== 
+==24845== All heap blocks were freed -- no leaks are possible
+==24845== 
+==24845== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+azul@azul-mint:~/learning/learn_c_the_hard_way/revisits_after_learning/rpc$ 
+```

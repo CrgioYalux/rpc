@@ -77,37 +77,55 @@ int main(int argc, char **argv) {
 		if (canstrtoi(argv[i]) == 0) {
 			int op = is_operator(argv[i]);
 			if (op == 0) return 1;
+            if (stack->length == 0) return 1;
 
-			int *result_value = pop_node(stack)->value;
+            Node *value_a_node = pop_node(stack);
+            if (!value_a_node)
+                die(value_a_node, "last result node is NULL");
 
-			while (stack->length != 0) {
-				int *curr_value = pop_node(stack)->value;
-				if (op == '+')
-					*result_value = *curr_value + *result_value;
-				else if (op == '-')
-					*result_value = *curr_value - *result_value;
-				else if (op == 'x' || op == '*')
-					*result_value = *curr_value * *result_value;
-				else if (op == '/') {
-					if (*result_value == 0) {
-						printf("Error: attempt to divide by 0.\n");
-						return 1;
-					}
-					*result_value = *curr_value / *result_value;
-				}
-			}
+            while (stack->length != 0) {
+                Node *value_b_node = pop_node(stack);
+                if (!value_b_node)
+                    die(value_b_node, "current result node is NULL");
 
-			push_node(stack, new_node(result_value));
+                int *value_a = value_a_node->value;
+                int *value_b = value_b_node->value;
+
+                // Input order: value_n ... value_b value_a <operator>
+
+                if (op == '+')
+                    *value_a = *value_b + *value_a; 
+                else if (op == '-')
+                    *value_a = *value_b - *value_a; 
+                else if (op == 'x' || op == '*')
+                    *value_a = *value_b * *value_a; 
+                else if (op == '/') {
+                    if (*value_a == 0) {
+                        printf("Error: attempt to divide by 0.\n");
+                        return 1;
+                    }
+                    *value_a = *value_b / *value_a; 
+                }
+
+                free(value_b_node->value);
+                free(value_b_node);
+            }
+
+            push_node(stack, value_a_node);
 		} else {
-            int value = strtoi(argv[i]);
-            Node *valueNode = new_node(&value);
+            int *value_p = malloc(sizeof(int));
+            *value_p = strtoi(argv[i]);
+            Node *valueNode = new_node(value_p);
 			push_node(stack, valueNode);
 		}
 	}
 
-	int *result = pop_node(stack)->value;
-	printf("Result: %d\n", *result);
+	Node *end_result = pop_node(stack);
+    int *end_result_value = end_result->value;
+	printf("Result: %d\n", *end_result_value);
 
+    free(end_result->value);
+    free(end_result);
     free(stack);
 
 	return 0;
